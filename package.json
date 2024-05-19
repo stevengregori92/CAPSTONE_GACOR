@@ -1,0 +1,24 @@
+{
+  "name": "ml-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^7.11.0",
+    "@hapi/hapi": "^21.3.9",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/jwt": "^3.2.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.7",
+    "nanoid": "^2.1.11",
+    "nodemon": "^3.1.0"
+  }
+}
