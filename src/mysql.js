@@ -52,6 +52,21 @@ const queryCheckUserEmail = (email, callback) => {
     });
 }
 
+const queryDeleteUser = (email, callback) => {
+    const values = email;
+    const sqlQuery = `DELETE FROM user WHERE U_email = ? LIMIT 1;`;
+
+    pool.query(sqlQuery, values, (error, results, fields) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            callback(false);
+            return;
+        }
+        console.log('Query results:', results);
+        return callback(true);
+    });
+}
 
 
-module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail};
+
+module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser};

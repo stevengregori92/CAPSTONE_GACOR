@@ -1,4 +1,4 @@
-const {uploadPic, registerUser, loginUser} = require('./handler');
+const {uploadPic, registerUser, loginUser, deleteUser} = require('./handler');
 
 const routes =
 [{
@@ -23,6 +23,10 @@ const routes =
     method: 'POST',
     path: '/login',
     handler: loginUser
+},{
+    method: 'DELETE',
+    path: '/delete',
+    handler: deleteUser
 }];
 
 module.exports = routes;

@@ -4,11 +4,13 @@ const {
   queryUploadScan,
   queryRegisterUser,
   queryCheckUserEmail,
+  queryDeleteUser
 } = require("./mysql");
 const bcrypt = require("bcryptjs");
 const uploadFile = require("./upload");
 const jwt = require("@hapi/jwt");
 const authenticateUser = require("./authentication.js");
+const predictFromModel = require("./predict.js");
 
 require("dotenv").config();
 
@@ -19,7 +21,7 @@ const bucketName = process.env.BUCKET_NAME;
 const uploadPic = async (request, h) => {
   return new Promise((resolve, reject) => {
     const auth = authenticateUser(request);
-    if (!auth) {
+    if (!auth.isValid) {
       const response = h.response({
         status: "fail",
         message: "Token failed to authenticate",
@@ -49,16 +51,39 @@ const uploadPic = async (request, h) => {
     let pubUrl = "";
 
     fileStream.on("finish", async () => {
-      // pubUrl = uploadFile(imgId, fileExtension); // untuk deployment
-      pubUrl = `https://storage.googleapis.com/${bucketName}/${imgId}.${fileExtension}`; // untuk dev
 
-      fs.unlink(path, (err) => {
-        if (err) {
-          console.error("Error removing file:", err);
-          return reject(err);
+       // Predict from the model
+        const results = await predictFromModel(path);
+        console.log('Prediction results:', results);
+
+        // pubUrl = uploadFile(imgId, fileExtension); // untuk deployment
+        pubUrl = `https://storage.googleapis.com/${bucketName}/${imgId}.${fileExtension}`; // untuk dev
+      
+        if(!results){
+
+          fs.unlink(path, (err) => {
+            if (err) {
+              console.error("Error removing file:", err);
+              return reject(err);
+            }
+            console.log("File removed successfully");
+          });
+
+          const response = h.response({
+            status: "fail",
+            message: "failed to give prediction",
+          });
+          response.code(400);
+          return resolve(response);
         }
-        console.log("File removed successfully");
-      });
+      
+        fs.unlink(path, (err) => {
+          if (err) {
+            console.error("Error removing file:", err);
+            return reject(err);
+          }
+          console.log("File removed successfully");
+        });
 
       const currentDate = new Date();
       const formattedDate = currentDate
@@ -156,11 +181,55 @@ const registerUser = async (request, h) => {
   }
 };
 
+const deleteUser = async (request, h) =>{
+    const auth = authenticateUser(request);
+    if (!auth.isValid) {
+      const response = h.response({
+        status: "fail",
+        message: "Token failed to authenticate",
+      });
+      response.code(400);
+      return resolve(response);
+    }
+
+    const email = auth.decoded.email;
+    const deleteSuccess = await deleteUserByEmail(
+      email
+    );
+
+    if (deleteSuccess) {
+      const response = h.response({
+        status: "success",
+        message: "successfully delete user",
+      });
+      response.code(202);
+      return response;
+    }
+    const response = h.response({
+      status: "fail",
+      message: "failed delete user",
+    });
+    response.code(500);
+    return response;
+}
+
 const checkUserEmail = (email) => {
   return new Promise((resolve, reject) => {
     queryCheckUserEmail(email, (querySuccess, queryResults) => {
       if (querySuccess) {
         resolve(queryResults.length > 0);
+      } else {
+        reject(new Error("Query failed"));
+      }
+    });
+  });
+};
+
+const deleteUserByEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    queryDeleteUser(email, (querySuccess, queryResults) => {
+      if (querySuccess) {
+        resolve(true);
       } else {
         reject(new Error("Query failed"));
       }
@@ -219,4 +288,4 @@ const loginUser = async (request, h) => {
   }
 };
 
-module.exports = { uploadPic, registerUser, loginUser };
+module.exports = { uploadPic, registerUser, loginUser, deleteUser };

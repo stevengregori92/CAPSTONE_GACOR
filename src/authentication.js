@@ -39,7 +39,7 @@ const authenticateUser = (request) => {
     const validationResult = verifyToken(tokenString, secretKey);
     console.log("Validation result:", validationResult);
     
-    return validationResult.isValid;
+    return validationResult;
 };
 
 module.exports = authenticateUser;
