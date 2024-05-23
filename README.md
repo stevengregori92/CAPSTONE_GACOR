@@ -90,7 +90,7 @@
   `Authorization: Bearer <USER TOKEN>`
 - **body: `FORM-DATA {key: image; value: <IMAGE> }`**
 - expected response:
-  ```
+  ```json
   {
     "status": "success",
     "message": "successfully upload a scan image",
