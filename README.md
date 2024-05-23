@@ -4,7 +4,7 @@
 0. Pastikan sudah menginstal NodeJS.
 1. Download XAMPP atau database lokal favorit kalian, nyalakan service tersebut.
 2. Clone branch ini ke lokal.
-3. Buat database baru pada database lokal lalu gunakan import dengan script SQL pada `./database/bangkit_capstone_Physical_Export_create.sql`
+3. Buat database baru pada database lokal lalu gunakan import dengan script SQL pada [./database/bangkit_capstone_Physical_Export_create.sql]()
 4. Jalankan `npm i` untuk install node modules berdasarkan package yg dibutuhkan.
 5. Buat `.env` lalu isi sesuai konfigurasi DB lokal kalian (tanpa tanda petik):
    ```
