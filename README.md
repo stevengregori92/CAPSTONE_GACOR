@@ -97,5 +97,5 @@
     "data": {
         "imageUrl": "https://storage.googleapis.com/example-bucket-test-cc-trw/<IMAGE_BUCKET_ID>.<IMG_EXTENSION>"
     }
-}
-  ```
+   }
+   ```
