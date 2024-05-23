@@ -56,7 +56,7 @@
   }
   ```
 - expected response:
-  ```
+  ```json
   {
       "status": "success",
       "data": {
@@ -74,7 +74,7 @@
   `Authorization: Bearer <USER TOKEN>`
 - body: **NO BODY**
 - expected response:
-  ```
+  ```json
   {
     "status": "success",
     "message": "successfully delete user"
