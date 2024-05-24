@@ -6,7 +6,7 @@
 2. Clone branch ini ke lokal.
 3. Buat database baru bernama `bangkit_skin_app` pada database lokal lalu gunakan import dengan script SQL pada [`./database/bangkit_capstone_Physical_Export_create.sql`](https://github.com/stevengregori92/CAPSTONE_GACOR/blob/cc/database/bangkit_capstone_Physical_Export_create.sql)
 4. Jalankan `npm i` untuk install node modules berdasarkan package yg dibutuhkan.
-5. **IMPORTANT! terdapat bug pada tensorflowJS, silahkan mengikuti langkah ini setelah `npm i`:**
+5. **IMPORTANT! terdapat bug pada tensorflowJS, silahkan mengikuti langkah ini setelah `npm i`, output terlampir dapat diabaikan karena hanya warning:**
    ![WhatsApp Image 2024-05-24 at 17 02 58_b028a30c](https://github.com/stevengregori92/CAPSTONE_GACOR/assets/78022264/13c26e2f-410b-4d13-a20a-b9f66bf684c0)
 6. Buat `.env` lalu isi sesuai konfigurasi DB lokal kalian (tanpa tanda petik):
    ```
