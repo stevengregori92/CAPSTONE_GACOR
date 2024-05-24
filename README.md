@@ -10,6 +10,7 @@
    ![WhatsApp Image 2024-05-24 at 17 02 58_b028a30c](https://github.com/stevengregori92/CAPSTONE_GACOR/assets/78022264/13c26e2f-410b-4d13-a20a-b9f66bf684c0)
 6. Buat `.env` lalu isi sesuai konfigurasi DB lokal kalian (tanpa tanda petik):
    ```
+   JWT_SECRET=<isi terserah>
    DB_NAME=
    DB_PASS=
    DB_USER=
