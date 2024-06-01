@@ -28,7 +28,7 @@ const authenticateUser = (request) => {
     const token = request.headers.authorization; 
     if (!token || !token.startsWith('Bearer ')) {
         console.log("Authorization header missing or does not start with 'Bearer '");
-        return false;
+        return { isValid: false, errorMessage: 'No user token detected' };
     }
 
     const tokenString = token.slice(7); 
