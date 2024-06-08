@@ -4,7 +4,7 @@
 -- tables
 -- Table: scan
 
-USE bangkit_skin_app;
+USE skinwise;
 
 
 CREATE TABLE scan (

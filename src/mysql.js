@@ -1,14 +1,18 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-const pool = mysql.createPool({
+const pool = mysql.createConnection({
     // dev pakai localhost phpmyadmin
     connectionLimit: 10,
+
+    // HOST IS FOR WINDOWS ONLY
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    // socketPath: '/cloudsql/your_project_id:your_region:your_instance_name'
+
+    // USE THIS FOR UNIX
+    // socketPath: '/cloudsql/capstone-gacor:asia-southeast2:capstone-gacor-mysql'
 });
 
 const querySQL = async (sqlQuery, values, callback) =>{
@@ -30,9 +34,9 @@ const queryUploadScan = async (id, link, diagnosis, waktu, userId, callback) => 
     querySQL(sqlQuery, values, callback);
 };
 
-const queryRegisterUser = async (id, email, password, nama, role, subscriber, callback) => {
-    const sqlQuery = `INSERT INTO user (U_ID, U_email, U_password, U_nama, U_role, U_subscriber) VALUES (?, ?, ?, ?, ?, ?);`;
-    const values = [id, email, password, nama, role, subscriber];
+const queryRegisterUser = async (id, email, password, nama, foto, role, subscriber, callback) => {
+    const sqlQuery = `INSERT INTO user (U_ID, U_email, U_password, U_nama, U_foto, U_role, U_subscriber) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+    const values = [id, email, password, nama, foto,  role, subscriber];
 
     querySQL(sqlQuery, values, callback);
 }
@@ -67,9 +71,9 @@ const queryDeleteUser = async (email, callback) => {
     });
 }
 
-const queryUpdateUser = async (password, nama, role, subscriber, email, callback) => {
-    const values = [password, nama, role, subscriber, email];
-    const sqlQuery = `UPDATE user SET U_password=?, U_nama=?, U_role=?, U_subscriber=? WHERE U_email = ? LIMIT 1;`;
+const queryUpdateUser = async (password, nama, role, foto, subscriber, email, callback) => {
+    const values = [password, nama, role, foto, subscriber, email];
+    const sqlQuery = `UPDATE user SET U_password=?, U_nama=?, U_role=?, U_foto=?, U_subscriber=? WHERE U_email = ? LIMIT 1;`;
 
     pool.query(sqlQuery, values, (error, results, fields) => {
         if (error) {

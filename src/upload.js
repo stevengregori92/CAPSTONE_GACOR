@@ -1,18 +1,28 @@
 const { Storage } = require('@google-cloud/storage');
-const bucketName = "example-bucket-test-cc-trw";
+const bucketName = process.env.BUCKET_NAME;
 
-const uploadFile = async (fileName, fileExt) => {
-const storage = new Storage({ keyFilename: './src/key.json' });
-  await storage.bucket(bucketName).upload(`./uploads/${fileName}.${fileExt}`, {
-    gzip: true,
-  });
+const uploadFile = async (fileName, fileExt, foldDest) => {
+  const storage = new Storage({ keyFilename: process.env.KEY_DIR });
+  const bucket = storage.bucket(bucketName);
+  const filePath = `./uploads/${fileName}.${fileExt}`;
+  const destination = `${foldDest}/${fileName}.${fileExt}`;
 
-  console.log(`${fileName}.${fileExt} uploaded to ${bucketName}.`);
+  try {
+    await bucket.upload(filePath, {
+      destination: destination,
+      gzip: true,
+    });
 
-  const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}.${fileExt}`;
-  console.log("Public URL:", publicUrl);
+    console.log(`${fileName}.${fileExt} uploaded to ${bucketName}/${destination}.`);
 
-  return publicUrl;
-}
+    const publicUrl = `https://storage.googleapis.com/${bucketName}/${destination}`;
+    console.log("Public URL:", publicUrl);
+
+    return publicUrl;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw new Error('File upload failed');
+  }
+};
 
 module.exports = uploadFile;

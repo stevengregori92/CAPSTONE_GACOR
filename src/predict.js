@@ -9,7 +9,7 @@ const predictFromModel = async (imagePath) => {
         // DEV MODE
         const imageBuffer = fs.readFileSync(imagePath);
         console.log("MASUK1")
-        const modelPath = path.resolve(__dirname, 'model/old model/model.json');
+        const modelPath = path.resolve(__dirname, 'model/actual model 0.4/model.json');
         console.log("MASUK2")
         const model = await tf.loadLayersModel('file://' + modelPath);
         console.log("MASUK3")

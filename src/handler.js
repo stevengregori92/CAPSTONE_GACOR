@@ -57,8 +57,8 @@ const uploadPic = async (request, h) => {
       const results = await predictFromModel(path);
       console.log("Prediction results:", results);
 
-      // pubUrl = uploadFile(imgId, fileExtension); // untuk deployment
-      pubUrl = `https://storage.googleapis.com/${bucketName}/scans/${imgId}.${fileExtension}`; // untuk dev
+      // pubUrl = uploadFile(imgId, fileExtension, 'user-scan'); // untuk deployment
+      pubUrl = `https://storage.googleapis.com/${bucketName}/user-scan/${imgId}.${fileExtension}`; // untuk dev
 
       if (!results) {
         fs.unlink(path, (err) => {
@@ -149,12 +149,14 @@ const registerUser = async (request, h) => {
     const userId = nanoid(21);
     const subscriber = false;
     const hashedPassword = await bcrypt.hash(data.password, 10);
+    const foto = "https://storage.googleapis.com/capstonegacor-bucket/user-picture/default-user.png";
 
     const registerSuccess = await registerNewUser(
       userId,
       data.email,
       hashedPassword,
       data.nama,
+      foto,
       data.role,
       subscriber
     );
@@ -238,13 +240,14 @@ const deleteUserByEmail = (email) => {
   });
 };
 
-const registerNewUser = (id, email, password, nama, role, subscriber) => {
+const registerNewUser = (id, email, password, nama, foto, role, subscriber) => {
   return new Promise((resolve, reject) => {
     queryRegisterUser(
       id,
       email,
       password,
       nama,
+      foto,
       role,
       subscriber,
       (querySuccess) => {
@@ -319,9 +322,10 @@ const updateUser = async (request, h) => {
       });
     });
 
-    const data = request.payload;
+    const data = request.payload.data;
+    const image = request.payload.image;
 
-    let bufPass, bufNama, bufSubs, bufRole;
+    let bufPass, bufNama, bufSubs, bufRole, bufPic;
 
     bufRole = user.U_role;
 
@@ -343,8 +347,45 @@ const updateUser = async (request, h) => {
       bufSubs = user.U_subscriber;
     }
 
+    if (image !== undefined) {
+      const fileExtension = image.hapi.filename.split(".").pop();
+      const imgId = nanoid(16);
+      const path = `./uploads/${imgId}.${fileExtension}`;
+      const fileStream = fs.createWriteStream(path);
+  
+      image.pipe(fileStream);
+  
+      // Return a promise that resolves when the file upload and removal are complete
+      bufPic = await new Promise((resolve, reject) => {
+        fileStream.on("finish", async () => {
+          try {
+            const pubUrl = await uploadFile(imgId, fileExtension, 'user-picture');
+            resolve(pubUrl);
+          } catch (uploadError) {
+            console.error("Error uploading file:", uploadError);
+            return reject(uploadError);
+          } finally {
+            fs.unlink(path, (err) => {
+              if (err) {
+                console.error("Error removing file:", err);
+                return reject(err);
+              }
+              console.log("File removed successfully");
+            });
+          }
+        });
+  
+        fileStream.on("error", (streamError) => {
+          console.error("Error writing file:", streamError);
+          reject(streamError);
+        });
+      });
+    } else {
+      bufPic = user.U_foto;
+    }
+
     const querySuccess = await new Promise((resolve, reject) => {
-      queryUpdateUser(bufPass, bufNama, bufRole, bufSubs, email, (querySuccess) => {
+      queryUpdateUser(bufPass, bufNama, bufRole, bufPic, bufSubs, email, (querySuccess) => {
         if (querySuccess) {
           resolve(true);
         } else {

@@ -40,6 +40,14 @@ const routes = [
   {
     method: "PATCH",
     path: "/update",
+    options: {
+      payload: {
+        output: "stream",
+        parse: true,
+        allow: "multipart/form-data",
+        multipart: true,
+      },
+    },
     handler: updateUser,
   },
   {
