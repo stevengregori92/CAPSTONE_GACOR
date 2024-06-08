@@ -14,6 +14,7 @@ const uploadFile = require("./upload");
 const jwt = require("@hapi/jwt");
 const authenticateUser = require("./authentication.js");
 const predictFromModel = require("./predict.js");
+const deleteFileByUrl = require("./deleteBucket.js");
 
 require("dotenv").config();
 
@@ -380,6 +381,10 @@ const updateUser = async (request, h) => {
           reject(streamError);
         });
       });
+
+      if(user.U_foto !== "https://storage.googleapis.com/capstonegacor-bucket/user-picture/default-user.png"){
+        deleteFileByUrl(user.U_foto);
+      }
     } else {
       bufPic = user.U_foto;
     }
