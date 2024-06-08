@@ -7,6 +7,7 @@ const {
   queryDeleteUser,
   queryUpdateUser,
   queryGetDoctors,
+  queryGetHospitals,
 } = require("./mysql");
 const bcrypt = require("bcryptjs");
 const uploadFile = require("./upload");
@@ -57,7 +58,7 @@ const uploadPic = async (request, h) => {
       console.log("Prediction results:", results);
 
       // pubUrl = uploadFile(imgId, fileExtension); // untuk deployment
-      pubUrl = `https://storage.googleapis.com/${bucketName}/${imgId}.${fileExtension}`; // untuk dev
+      pubUrl = `https://storage.googleapis.com/${bucketName}/scans/${imgId}.${fileExtension}`; // untuk dev
 
       if (!results) {
         fs.unlink(path, (err) => {
@@ -398,5 +399,42 @@ const getDoctors = async (request, h) => {
   }
 };
 
+const getHospitals = async (request, h) => {
+  const auth = authenticateUser(request);
+  if (!auth.isValid) {
+    const response = h.response({
+      status: "fail",
+      message: auth.errorMessage,
+    });
+    response.code(400);
+    return response;
+  }
 
-module.exports = { uploadPic, registerUser, loginUser, deleteUser, updateUser, getDoctors };
+  const { kota } = request.query;
+  if (!kota) {
+    const response = h.response({
+      status: "fail",
+      message: "Parameter 'kota' is not found.",
+    });
+    response.code(400);
+    return response;
+  }
+
+  try {
+    const hospitals = await new Promise((resolve, reject) => {
+      queryGetHospitals(kota, (querySuccess, queryResults) => {
+        if (!querySuccess) {
+          return reject(new Error("Failed on query"));
+        }
+        resolve(queryResults);
+      });
+    });
+
+    return h.response({ status: "success", data: { hospitals } }).code(200);
+  } catch (error) {
+    return h.response({ status: "fail", message: error.message }).code(400);
+  }
+};
+
+
+module.exports = { uploadPic, registerUser, loginUser, deleteUser, updateUser, getDoctors, getHospitals };

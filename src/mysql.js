@@ -96,6 +96,20 @@ const queryGetDoctors = async (callback) => {
     });
 }
 
+const queryGetHospitals = async (kota, callback) => {
+    const values = kota;
+    const sqlQuery = `SELECT * FROM hospital WHERE H_kota = ?;`;
+
+    pool.query(sqlQuery, values, (error, results, fields) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            callback(false);
+            return;
+        }
+        console.log('Query results:', results);
+        return callback(true, results);
+    });
+}
 
 
-module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors};
+module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals};
