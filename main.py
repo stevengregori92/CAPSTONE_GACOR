@@ -73,7 +73,8 @@ def load_model_from_url(url):
     model = load_model("model.h5")
     return model
 
-model = load_model_from_url(MODEL_URL)
+# model = load_model_from_url(MODEL_URL)
+model = load_model("./model.h5")
 
 def preprocess_image(image, target_size):
     if image.mode != "RGB":
@@ -129,4 +130,4 @@ async def predict(image: UploadFile = File(...), token: dict = Depends(verify_to
 # PAY ATTENTION ON THE PORT
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=3000)
+    uvicorn.run(app, host="127.0.0.1", port=3000)
