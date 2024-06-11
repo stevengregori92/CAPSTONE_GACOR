@@ -125,6 +125,8 @@ async def predict(image: UploadFile = File(...), token: dict = Depends(verify_to
     except Exception as e:
         raise HTTPException(status_code=500, detail="failed to predict request")
 
+
+# PAY ATTENTION ON THE PORT
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=3000)
