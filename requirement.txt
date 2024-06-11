@@ -2,3 +2,6 @@ fastapi
 uvicorn
 pillow
 tensorflow
+requests
+PyJWT
+python-dotenv
