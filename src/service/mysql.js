@@ -87,7 +87,7 @@ const queryUpdateUser = async (password, nama, role, foto, subscriber, email, ca
 }
 
 const queryGetDoctors = async (callback) => {
-    const sqlQuery = `SELECT U_ID, U_email, U_nama, U_role FROM user WHERE U_role = 'doctor';`;
+    const sqlQuery = `SELECT U_ID, U_email, U_nama, U_foto, U_role FROM user WHERE U_role = 'doctor';`;
 
     pool.query(sqlQuery, (error, results, fields) => {
         if (error) {
