@@ -130,5 +130,19 @@ const queryGetHospitals = async (kota, callback) => {
     });
 }
 
+const queryGetHospitalsAll = async (callback) => {
+    const sqlQuery = `SELECT * FROM hospital;`;
 
-module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals, queryDeleteScan};
+    pool.query(sqlQuery, (error, results, fields) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            callback(false);
+            return;
+        }
+        console.log('Query results:', results);
+        return callback(true, results);
+    });
+}
+
+
+module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals, queryDeleteScan, queryGetHospitalsAll};
