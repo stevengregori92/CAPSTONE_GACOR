@@ -27,9 +27,9 @@ const querySQL = async (sqlQuery, values, callback) =>{
     });
 }
 
-const queryUploadScan = async (id, link, diagnosis, waktu, userId, callback) => {
-    const sqlQuery = `INSERT INTO scan (S_ID, S_link, S_diagnosis, S_waktu, user_U_ID) VALUES (?, ?, ?, ?, ?)`;
-    const values = [id, link, diagnosis, waktu, userId];
+const queryUploadScan = async (id, link, diagnosis, referensi, deskripsi, userId, callback) => {
+    const sqlQuery = `INSERT INTO scan (S_ID, S_link, S_diagnosis, S_referensi, S_deskripsi, S_waktu, user_U_ID) VALUES (?, ?, ?, ?, ?, NOW(), ?)`;
+    const values = [id, link, diagnosis, referensi, deskripsi, userId];
 
     querySQL(sqlQuery, values, callback);
 };

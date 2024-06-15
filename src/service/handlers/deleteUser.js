@@ -21,7 +21,7 @@ const deleteUser = async (request, h) => {
       message: auth.errorMessage,
     });
     response.code(400);
-    return resolve(response);
+    return response;
   }
 
   const email = auth.decoded.email;

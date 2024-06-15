@@ -13,6 +13,7 @@ const deleteUser = require("./handlers/deleteUser");
 const updateUser = require("./handlers/updateUser");
 const getDoctors = require("./handlers/listDoctors");
 const getHospitals = require("./handlers/listHospitals");
+const uploadPrediction = require("./handlers/uploadPrediction");
 
 const routes = [
   {
@@ -52,6 +53,19 @@ const routes = [
     method: "GET",
     path: "/hospitals",
     handler: getHospitals,
+  },
+  {
+    method: "POST",
+    path: "/prediction",
+    options: {
+      payload: {
+        output: "stream",
+        parse: true,
+        allow: "multipart/form-data",
+        multipart: true,
+      },
+    },
+    handler: uploadPrediction,
   }
 ];
 

@@ -31,7 +31,8 @@ const updateUser = async (request, h) => {
         });
       });
   
-      const data = request.payload.data;
+      let data = request.payload.data;
+      data = JSON.parse(data)
       const image = request.payload.image;
   
       let bufPass, bufNama, bufSubs, bufRole, bufPic;
@@ -56,10 +57,10 @@ const updateUser = async (request, h) => {
         bufSubs = user.U_subscriber;
       }
   
-      if (data.subscriber !== undefined) {
-        bufSubs = data.subscriber;
+      if (data.role !== undefined) {
+        bufRole = data.role;
       } else {
-        bufSubs = user.U_subscriber;
+        bufRole = user.U_role;
       }
   
       if (image !== undefined) {
