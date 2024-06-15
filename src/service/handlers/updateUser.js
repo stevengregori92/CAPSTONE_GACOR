@@ -30,38 +30,35 @@ const updateUser = async (request, h) => {
           resolve(queryResults[0]);
         });
       });
+
+      let bufPass = user.U_password;
+      let bufNama = user.U_nama;
+      let bufSubs = user.U_subscriber;
+      let bufRole = user.U_role;
+      let bufPic = user.U_foto;
   
       let data = request.payload.data;
-      data = JSON.parse(data)
+      if(data !== undefined){
+        data = JSON.parse(data);
+
+        if (data.password !== undefined) {
+          bufPass = await bcrypt.hash(data.password, 10);
+        }
+    
+        if (data.nama !== undefined) {
+          bufNama = data.nama;
+        }
+    
+        if (data.subscriber !== undefined) {
+          bufSubs = data.subscriber;
+        }
+    
+        if (data.role !== undefined) {
+          bufRole = data.role;
+        }
+      }
+
       const image = request.payload.image;
-  
-      let bufPass, bufNama, bufSubs, bufRole, bufPic;
-  
-      bufRole = user.U_role;
-  
-      if (data.password !== undefined) {
-        bufPass = await bcrypt.hash(data.password, 10);
-      } else {
-        bufPass = user.U_password;
-      }
-  
-      if (data.nama !== undefined) {
-        bufNama = data.nama;
-      } else {
-        bufNama = user.U_nama;
-      }
-  
-      if (data.subscriber !== undefined) {
-        bufSubs = data.subscriber;
-      } else {
-        bufSubs = user.U_subscriber;
-      }
-  
-      if (data.role !== undefined) {
-        bufRole = data.role;
-      } else {
-        bufRole = user.U_role;
-      }
   
       if (image !== undefined) {
         const fileExtension = image.hapi.filename.split(".").pop();
@@ -80,10 +77,8 @@ const updateUser = async (request, h) => {
         if (user.U_foto !== "https://storage.googleapis.com/capstonegacor-bucket/user-picture/default-user.png") {
           deleteFileByUrl(user.U_foto);
         }
-      } else {
-        bufPic = user.U_foto;
       }
-  
+      
       const querySuccess = await new Promise((resolve, reject) => {
         queryUpdateUser(bufPass, bufNama, bufRole, bufPic, bufSubs, email, (querySuccess) => {
           if (querySuccess) {
