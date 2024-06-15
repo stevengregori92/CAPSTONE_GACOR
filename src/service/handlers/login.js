@@ -27,6 +27,7 @@ const loginUser = async (request, h) => {
   
       const token = jwt.token.generate(
         {
+            id: user.U_ID,
             email: user.U_email,
             nama: user.U_nama,
             foto: user.U_foto,

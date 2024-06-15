@@ -56,6 +56,21 @@ const queryCheckUserEmail = async (email, callback) => {
     });
 }
 
+const queryDeleteScan = async (userId, callback) => {
+    const values = userId;
+    const sqlQuery = `DELETE FROM scan WHERE user_U_ID = ?;`;
+
+    pool.query(sqlQuery, values, (error, results, fields) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            callback(false);
+            return;
+        }
+        console.log('Query results:', results);
+        return callback(true);
+    });
+}
+
 const queryDeleteUser = async (email, callback) => {
     const values = email;
     const sqlQuery = `DELETE FROM user WHERE U_email = ? LIMIT 1;`;
@@ -116,4 +131,4 @@ const queryGetHospitals = async (kota, callback) => {
 }
 
 
-module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals};
+module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals, queryDeleteScan};

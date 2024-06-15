@@ -5,3 +5,4 @@ Dockerfile
 package-lock.json
 ML API.rar
 src/service/key.json
+queryDoc.json
