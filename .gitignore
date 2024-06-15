@@ -1,3 +1,6 @@
 key.json
 __pycache__
 .env
+model.h5
+Dockerfile
+app.yaml

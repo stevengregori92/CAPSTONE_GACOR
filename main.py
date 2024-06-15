@@ -3,6 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
+from keras.preprocessing import image as imageKeras
 from PIL import Image
 import numpy as np
 import io
@@ -67,21 +68,22 @@ classOutput = [
 
 def load_model_from_url(url):
     response = requests.get(url)
-    response.raise_for_status()  # Ensure we notice bad responses
+    response.raise_for_status() 
     with open("model.h5", "wb") as f:
         f.write(response.content)
     model = load_model("model.h5")
     return model
 
-# model = load_model_from_url(MODEL_URL)
-model = load_model("./model.h5")
+model = load_model_from_url(MODEL_URL)
 
 def preprocess_image(image, target_size):
     if image.mode != "RGB":
-        image = image.convert("RGB")
-    image = image.resize(target_size) 
-    image = img_to_array(image)
+      image = image.convert("RGB")
+    image = image.resize((224, 224))
+    image = imageKeras.img_to_array(image)
     image = np.expand_dims(image, axis=0)
+    image = image / 255.0
+
     return image
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
@@ -113,14 +115,21 @@ async def predict(image: UploadFile = File(...), token: dict = Depends(verify_to
     try:
         contents = await image.read()
         imageBuf = Image.open(io.BytesIO(contents))
-        preprocessed_image = preprocess_image(imageBuf, target_size=(224, 224))
-        prediction = model.predict(preprocessed_image)
+
+        img_preprocessed = preprocess_image(imageBuf, (224, 224))
+        prediction = model.predict(img_preprocessed)
         predicted_class = np.argmax(prediction[0])
+        confidence = prediction[0][predicted_class]
+
+        result = classOutput[predicted_class]
+        result["confidence"] = float(confidence)
+        
         response = {
             "status":"success",
             "message":"successfully predict request",
-            "data": classOutput[predicted_class]
+            "data": result
         }
+        print(response)
         return JSONResponse(content=response)
     
     except Exception as e:
@@ -130,4 +139,4 @@ async def predict(image: UploadFile = File(...), token: dict = Depends(verify_to
 # PAY ATTENTION ON THE PORT
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=3000)
+    uvicorn.run(app, host="0.0.0.0", port=3000)
