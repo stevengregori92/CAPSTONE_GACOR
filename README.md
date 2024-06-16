@@ -1,28 +1,9 @@
 # HOW TO CC
-
-## DEV MODE
-0. Pastikan sudah menginstal NodeJS.
-1. Download XAMPP atau database lokal favorit kalian, nyalakan service tersebut.
-2. Clone branch ini ke lokal.
-3. Buat database baru bernama `bangkit_skin_app` pada database lokal lalu gunakan import dengan script SQL pada [`./database/bangkit_capstone_Physical_Export_create.sql`](https://github.com/stevengregori92/CAPSTONE_GACOR/blob/cc/database/bangkit_capstone_Physical_Export_create.sql)
-4. Jalankan `npm i` untuk install node modules berdasarkan package yg dibutuhkan.
-5. **IMPORTANT! terdapat bug pada tensorflowJS, silahkan mengikuti langkah ini setelah `npm i`, output terlampir dapat diabaikan karena hanya warning:**
-   ![WhatsApp Image 2024-05-24 at 17 02 58_b028a30c](https://github.com/stevengregori92/CAPSTONE_GACOR/assets/78022264/13c26e2f-410b-4d13-a20a-b9f66bf684c0)
-6. Buat `.env` lalu isi sesuai konfigurasi DB lokal kalian (tanpa tanda petik):
-   ```
-   JWT_SECRET=<isi terserah>
-   DB_NAME=
-   DB_PASS=
-   DB_USER=
-   DB_HOST=
-   ```
-7. Jalankan node dengan command `npm run dev`.
-
 ## API DOCUMENTATION
 
 ### REGISTER USER
 
-**warning:** Password akan dihash for security reason
+**INFO:** Password akan dihash for security reason
 
 - method: POST
 - path: `/register`
@@ -84,21 +65,80 @@
   }
   ```
 
-### USER PREDICT
+### USER UPDATE
 
-- method: POST
-- path: `/upload`
-- **content-type: multipart/form-data**
+- method: PATCH
+- path: `/update`
+- content-type: multipart/form-data
 - Header:
   `Authorization: Bearer <USER TOKEN>`
-- **body: `FORM-DATA {key: image; value: <IMAGE> }`**
+- body (optional only for changes):
+     - image: <image file NO URL>
+     - data: <JSON for new attributes values>
 - expected response:
   ```json
   {
     "status": "success",
-    "message": "successfully upload a scan image",
+    "message": "Resource updated successfully"
+  }
+  ```
+
+### GET DOCTORS
+
+- method: GET
+- path: `/doctors`
+- content-type: application/json
+- Header:
+  `Authorization: Bearer <USER TOKEN>`
+- body: **No body**
+- expected response:
+  ```json
+  {
+    "status": "success",
     "data": {
-        "imageUrl": "https://storage.googleapis.com/example-bucket-test-cc-trw/<IMAGE_BUCKET_ID>.<IMG_EXTENSION>"
-    }
+        "doctors": []
+     }
+  }
+  ```
+
+### GET HOSPITALS
+
+- method: GET
+- path: `/hospitals`
+- parameter (optional): kota; example `/hospitals?kota=Surabaya`
+- content-type: application/json
+- Header:
+  `Authorization: Bearer <USER TOKEN>`
+- body: **No body**
+- expected response:
+  ```json
+  {
+    "status": "success",
+    "data": {
+        "hospitals": []
+     }
+  }
+  ```
+
+### POST HASIL SCAN
+
+- method: POST
+- path: `/prediction`
+- content-type: multipart/form-data
+- Header:
+  `Authorization: Bearer <USER TOKEN>`
+- body:
+  ```json
+   {
+      "name": "Dermatofibroma",
+      "link": "https://www.honestdocs.id/dermatofibroma",
+      "step": "Biasanya, dermatofibroma bersifat kronis dan tidak dapat sembuh sendiri secara spontan."
    }
-   ```
+  ```
+- expected response:
+  ```json
+  {
+    "status": "success",
+    "message": ""
+  }
+  ```
