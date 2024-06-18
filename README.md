@@ -1,6 +1,5 @@
-![image](https://github.com/stevengregori92/CAPSTONE_GACOR/assets/159790674/ef3284e8-96bb-451d-b246-dec711c5f399)# SkinWise: Skin Disease Classification Application
-
 <img src="https://github.com/stevengregori92/CAPSTONE_GACOR/blob/main/Icon%20App.png" alt="Logo" width="200"/>
+# SkinWise: Skin Disease Classification Application
 
 ## Executive Summary
 The data from Pitewi Community Health Center in the East Arso District of Keerom Regency reveals a troubling upward trend in skin disease cases over the past three years. The number of reported cases has escalated from 93 in 2019 to 116 in 2020, and further to 134 in 2021. This surge has propelled skin diseases into the list of the top ten health concerns plaguing the community, underscoring a critical need for increased public awareness and proactive measures towards skin health maintenance.
