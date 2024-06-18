@@ -5,7 +5,7 @@ This project is a Bangkit Academy 2024 Capstone Project. This branch contain the
 This model was trained using the HAM10000 dataset from Harvard Dataverse. The dataset was also combined with other datasets that we collected and obtained from Roboflow.
 
 ## Datasets
-[Datasets Link to GDrive](https://drive.google.com/file/d/1Kjt7cOPPJFT0pb4rVDDAE6gOMbK4ktYq/view?usp=drive_link )
+[Datasets Link to GDrive](https://drive.google.com/file/d/1Kjt7cOPPJFT0pb4rVDDAE6gOMbK4ktYq/view?usp=sharing)
 
 ## Model Zoo
 | Model         | Size          | Avg Accuracy  |
