@@ -1,4 +1,5 @@
 <img src="https://github.com/stevengregori92/CAPSTONE_GACOR/blob/main/Icon%20App.png" alt="Logo" width="200"/>
+
 # SkinWise: Skin Disease Classification Application
 
 ## Executive Summary
