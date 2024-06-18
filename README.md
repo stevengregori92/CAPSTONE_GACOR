@@ -10,4 +10,5 @@ This model was trained using the [HAM10000 dataset from Kaggle](https://www.kagg
 ## Model Zoo
 | Model         | Size          | Avg Accuracy  |
 | ------------- | ------------- | ------------- |
-| Link          | xxx,x MB      | Row 1, Cell 3 |
+| [DenseNet121](https://drive.google.com/file/d/1gH1w58O67Gel-IWiKUWxB5HGHgCTi8rh/view?usp=sharing)   | xxx,x MB      | 93%(?)        |
+| [MobileNet]()     | xxx,x MB      | xx%(?)        |
