@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-const pool = mysql.createConnection({
+const pool = mysql.createPool({
     // dev pakai localhost phpmyadmin
     connectionLimit: 10,
 
@@ -12,7 +12,7 @@ const pool = mysql.createConnection({
     database: process.env.DB_NAME,
 
     // USE THIS FOR UNIX
-    socketPath: '/cloudsql/capstone-gacor:asia-southeast2:skinwise-mysql'
+    socketPath: process.env.SOCK_PATH,
 });
 
 const querySQL = async (sqlQuery, values, callback) =>{
@@ -34,6 +34,14 @@ const queryUploadScan = async (id, link, diagnosis, referensi, deskripsi, userId
     querySQL(sqlQuery, values, callback);
 };
 
+
+
+const queryGetScan = async (userId, callback) => {
+    const sqlQuery = `SELECT * FROM scan WHERE user_U_ID=?)`;
+    const values = userId;
+
+    querySQL(sqlQuery, values, callback);
+};
 const queryRegisterUser = async (id, email, password, nama, foto, role, subscriber, callback) => {
     const sqlQuery = `INSERT INTO user (U_ID, U_email, U_password, U_nama, U_foto, U_role, U_subscriber) VALUES (?, ?, ?, ?, ?, ?, ?);`;
     const values = [id, email, password, nama, foto,  role, subscriber];
@@ -145,4 +153,4 @@ const queryGetHospitalsAll = async (callback) => {
 }
 
 
-module.exports = {queryUploadScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals, queryDeleteScan, queryGetHospitalsAll};
+module.exports = {queryUploadScan, queryGetScan, queryRegisterUser, queryCheckUserEmail, queryDeleteUser, queryUpdateUser, queryGetDoctors, queryGetHospitals, queryDeleteScan, queryGetHospitalsAll};

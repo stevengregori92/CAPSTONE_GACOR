@@ -1,12 +1,3 @@
-// const {
-//   registerUser,
-//   loginUser,
-//   deleteUser,
-//   updateUser,
-//   getDoctors,
-//   getHospitals,
-// } = require("./handler");
-
 const registerUser = require("./handlers/register");
 const loginUser = require("./handlers/login");
 const deleteUser = require("./handlers/deleteUser");
@@ -14,6 +5,7 @@ const updateUser = require("./handlers/updateUser");
 const getDoctors = require("./handlers/listDoctors");
 const getHospitals = require("./handlers/listHospitals");
 const uploadPrediction = require("./handlers/uploadPrediction");
+const getPrediction = require("./handlers/getPrediction");
 
 const routes = [
   {
@@ -53,6 +45,11 @@ const routes = [
     method: "GET",
     path: "/hospitals",
     handler: getHospitals,
+  },
+  {
+    method: "GET",
+    path: "/scans",
+    handler: getPrediction,
   },
   {
     method: "POST",

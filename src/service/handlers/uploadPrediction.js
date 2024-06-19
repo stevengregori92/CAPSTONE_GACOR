@@ -35,7 +35,7 @@ const uploadPrediction = async (request, h) => {
   }
 
   const email = auth.decoded.email;
-
+  
   const user = await new Promise((resolve, reject) => {
     queryCheckUserEmail(email, (querySuccess, queryResults) => {
       if (!querySuccess || queryResults.length === 0) {
