@@ -87,7 +87,7 @@
         "role": <role>,
         "subscriber": <bool subs>
     }
-}
+  }
   ```
 
 ### GET DOCTORS
