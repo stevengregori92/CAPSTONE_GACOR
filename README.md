@@ -79,8 +79,15 @@
   ```json
   {
     "status": "success",
-    "message": "Resource updated successfully"
-  }
+    "data": {
+        "id": <id>,
+        "email": <email>,
+        "nama": <nama>,
+        "foto": <url foto>,
+        "role": <role>,
+        "subscriber": <bool subs>
+    }
+}
   ```
 
 ### GET DOCTORS
@@ -140,5 +147,31 @@
   {
     "status": "success",
     "message": ""
+  }
+  ```
+
+### GET HASIL SCAN
+
+- method: GET
+- path: `/scans`
+- content-type: application/json
+- Header:
+  `Authorization: Bearer <USER TOKEN>`
+- body: **NO BODY**
+- expected response:
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "S_ID": <id scan>,
+        "S_link": <link gambar>,
+        "S_diagnosis": <text diagnosis penyakit>,
+        "S_referensi": <link referensi artikel>,
+        "S_deskripsi": <teks deskripsi penanganan awal>,
+        "S_waktu": <timestamp data tersimpan>,
+        "user_U_ID": <id use pemilik data scan>,
+      }
+    ]
   }
   ```
