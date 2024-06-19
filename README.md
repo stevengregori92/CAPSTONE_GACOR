@@ -11,4 +11,4 @@ This model was trained using the [HAM10000 dataset from Kaggle](https://www.kagg
 | Model         | Size          | Avg Accuracy  |
 | ------------- | ------------- | ------------- |
 | [DenseNet121](https://drive.google.com/file/d/1UyRXI5OSNEnGZdOcQkWM46eJ3ZIAVk4w/view?usp=sharing)   | 84 MB      | 91,04%     |
-| [MobileNet]()     | xxx,x MB      | xx%(?)        |
+| [MobileNet](https://drive.google.com/file/d/17N5B6cb8406zNi8BTrClqWn64Qv4Dlxd/view?usp=sharing)     | 39,8 MB    | xx%(?)     |
