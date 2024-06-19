@@ -92,9 +92,25 @@ const updateUser = async (request, h) => {
       if (querySuccess) {
         const response = h.response({
           status: "success",
-          message: "Resource updated successfully",
+          data: {
+            id: user.U_ID,
+            email: user.U_email,
+            nama: bufNama,
+            foto: bufPic,
+            role: bufRole,
+            subscriber: bufSubs
+          }
+          // message: "Resource updated successfully",
         });
-        response.code(200);
+        response.code(201);
+        return response;
+      }
+      else{
+        const response = h.response({
+          status: "fail",
+          message: "Resource update failed",
+        });
+        response.code(400);
         return response;
       }
   

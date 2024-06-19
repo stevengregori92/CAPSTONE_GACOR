@@ -12,7 +12,7 @@ const pool = mysql.createConnection({
     database: process.env.DB_NAME,
 
     // USE THIS FOR UNIX
-    // socketPath: '/cloudsql/capstone-gacor:asia-southeast2:capstone-gacor-mysql'
+    socketPath: '/cloudsql/capstone-gacor:asia-southeast2:skinwise-mysql'
 });
 
 const querySQL = async (sqlQuery, values, callback) =>{
