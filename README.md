@@ -8,7 +8,7 @@
 - content-type: multipart/form-data
 - Header: `Authorization: Bearer <USER TOKEN>`
 - body:
-    - image : <image file>
+    - image : `<image file>`
 - expected response:
   ```json
   {
